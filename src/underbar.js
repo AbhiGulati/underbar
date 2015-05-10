@@ -299,6 +299,19 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+  	var previousResults = {};
+
+  	return function() {
+  		var argsArray = [];
+  		for(var i=0; i<arguments.length; i++) argsArray.push(arguments[i]);
+  		console.log(argsArray);
+  	
+  		if(!previousResults[argsArray]) {
+  			previousResults[argsArray] = func.apply(this, argsArray);
+  		} 
+
+  		return previousResults[argsArray];
+  	}
   };
 
   // Delays a function for the given number of milliseconds, and then calls
