@@ -305,7 +305,7 @@
   		var argsArray = [];
   		for(var i=0; i<arguments.length; i++) argsArray.push(arguments[i]);
   		console.log(argsArray);
-  	
+
   		if(!previousResults[argsArray]) {
   			previousResults[argsArray] = func.apply(this, argsArray);
   		} 
@@ -321,6 +321,10 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+  	var argsToPass = Array.prototype.slice.call(arguments, 2);
+  	window.setTimeout(function() {
+  		func.apply(this, argsToPass);
+  	}, wait)
   };
 
 
