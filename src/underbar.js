@@ -378,7 +378,29 @@
   // If iterator is a string, sort objects by that property with the name
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
+
+  //* case 3 expected answer ??? *//
   _.sortBy = function(collection, iterator) {
+    if (typeof iterator === 'string') {
+      return collection.sort(function(a,b) {
+        //console.log(a,a[iterator], b,b[iterator])
+        if (a[iterator] < b[iterator])
+          return -1;
+        else if (a[iterator] < b[iterator])
+          return 0;
+        else
+          return 1;
+      }); //This is in-place; not sure if bad
+    } else {
+      return collection.sort(function(a,b) {
+        if (iterator(a) < iterator(b))
+          return -1;
+        else if (iterator(b) < iterator(b))
+          return 0;
+        else
+          return 1;
+      });
+    }
   };
 
   // Zip together two or more arrays with elements of the same index
@@ -387,6 +409,16 @@
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
+    var result = [];
+    var i=0;
+    while(_.some(arguments, function(arr) {
+      return arr[i] !== undefined;
+    })) {
+      result.push(_.pluck(arguments,i));
+      i++;
+    }
+
+    return result;
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
