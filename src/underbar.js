@@ -197,7 +197,6 @@
 	
 	return _.reduce(collection, function(allPassed, item) {
 	  if (!allPassed) {
-	    console.log(item);
 	    return false;
 	  }
 	  return !!(iterator(item));
@@ -304,7 +303,6 @@
   	return function() {
   		var argsArray = [];
   		for(var i=0; i<arguments.length; i++) argsArray.push(arguments[i]);
-  		console.log(argsArray);
 
   		if(!previousResults[argsArray]) {
   			previousResults[argsArray] = func.apply(this, argsArray);
@@ -346,7 +344,6 @@
 		for(var i=0; i<array.length; i++) {
 			var numChoices = unusedIndexes.length;
 			var index = Math.floor(numChoices * Math.random()); //index of unused index
-			console.log(unusedIndexes, index);
 			shuffledArray.push(array[unusedIndexes[index]]);
 			unusedIndexes = unusedIndexes.slice(0,index).concat(unusedIndexes.slice(index+1));
 		}
@@ -366,6 +363,15 @@
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
+    if (typeof functionOrKey === 'function') {
+      return _.map(collection, function(item) {
+        return functionOrKey.apply(item);
+      });
+    } else {
+      return _.map(collection, function(item) {
+        return item[functionOrKey]();
+      });
+    }
   };
 
   // Sort the object's values by a criterion produced by an iterator.
