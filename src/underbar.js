@@ -426,16 +426,40 @@
   //
   // Hint: Use Array.isArray to check if something is an array
   _.flatten = function(nestedArray, result) {
+    if (Array.isArray(nestedArray)) {
+      var result = [];
+      _.each(nestedArray, function(item) {
+        result = result.concat(_.flatten(item));
+      });
+      return result;
+    } else {
+      return [nestedArray];
+    }
   };
 
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
   _.intersection = function() {
+    var outerArguments = arguments;
+    return _.filter(arguments[0], function(item) {
+        return _.every(outerArguments, function(array){
+          return _.contains(array, item);
+        });
+    });
   };
 
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
+    var outerArguments = arguments;
+    return _.filter(array, function(item) {
+      for(var i=1; i<outerArguments.length; i++) {
+        if(_.contains(outerArguments[i],item)) {
+          return false;
+        }
+      }
+      return true;
+    });
   };
 
   // Returns a function, that, when invoked, will only be triggered at most once
