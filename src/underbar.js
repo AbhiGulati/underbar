@@ -386,19 +386,19 @@
         //console.log(a,a[iterator], b,b[iterator])
         if (a[iterator] < b[iterator])
           return -1;
-        else if (a[iterator] < b[iterator])
-          return 0;
-        else
+        else if (a[iterator] > b[iterator])
           return 1;
+        else
+          return 0;
       }); //This is in-place; not sure if bad
     } else {
       return collection.sort(function(a,b) {
         if (iterator(a) < iterator(b))
           return -1;
-        else if (iterator(b) < iterator(b))
-          return 0;
-        else
+        else if (iterator(a) > iterator(b))
           return 1;
+        else
+          return 0;
       });
     }
   };
